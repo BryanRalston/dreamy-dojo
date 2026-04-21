@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Dreamy Dojo</title>
+  <meta name="description" content="A fun learning game where you help adorable friends on adventures!">
+  <meta name="theme-color" content="#1a0a2e">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <!-- Particle canvas is created by particles.js -->
+
+  <div id="app">
+
+    <!-- HOME SCREEN -->
+    <div id="screen-home" class="screen active">
+      <!-- Built by game.js buildHome() -->
+    </div>
+
+    <!-- NAME ENTRY SCREEN -->
+    <div id="screen-name-entry" class="screen">
+      <!-- Built by game.js buildNameEntry() -->
+    </div>
+
+    <!-- GAME TYPE SELECT SCREEN -->
+    <div id="screen-game-type-select" class="screen">
+      <!-- Built by game.js buildGameTypeSelect() -->
+    </div>
+
+    <!-- WORLD SELECT SCREEN -->
+    <div id="screen-world-select" class="screen">
+      <!-- Built by game.js buildWorldSelect() -->
+    </div>
+
+    <!-- LEVEL SELECT SCREEN -->
+    <div id="screen-level-select" class="screen">
+      <!-- Built by game.js buildLevelSelect() -->
+    </div>
+
+    <!-- PLAYING SCREEN -->
+    <div id="screen-playing" class="screen">
+      <!-- Built by game.js buildPlayingScreen() -->
+    </div>
+
+    <!-- LEVEL COMPLETE SCREEN -->
+    <div id="screen-level-complete" class="screen">
+      <!-- Built by game.js showLevelCompleteScreen() -->
+    </div>
+
+    <!-- COLLECTION SCREEN -->
+    <div id="screen-collection" class="screen">
+      <!-- Built by game.js buildCollection() -->
+    </div>
+
+    <!-- CHARACTER DETAIL SCREEN -->
+    <div id="screen-character-detail" class="screen">
+      <!-- Built by game.js showCharDetail() -->
+    </div>
+
+    <!-- MY COTTAGE SCREEN -->
+    <div id="screen-house" class="screen">
+      <!-- Built by house.js buildHouse() -->
+    </div>
+
+    <!-- MY PROGRESS SCREEN -->
+    <div id="screen-progress" class="screen">
+      <!-- Built by game.js buildProgressScreen() -->
+    </div>
+
+  </div>
+
+  <!-- Unlock Modal (portal, above everything) -->
+  <div id="unlock-modal" class="modal hidden"></div>
+
+  <!-- Shop Modal (portal, above everything) -->
+  <div id="shop-modal" class="modal hidden"></div>
+
+  <!-- Scripts: load order matters -->
+  <script src="js/imageLoader.js"></script>
+  <script src="js/characters.js"></script>
+  <script src="js/audio.js"></script>
+  <script src="js/particles.js"></script>
+  <script src="js/worlds.js"></script>
+  <script src="js/house.js"></script>
+  <script src="js/game.js"></script>
+
+</body>
+</html>

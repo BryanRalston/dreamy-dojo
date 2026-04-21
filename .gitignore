@@ -1,0 +1,9 @@
+# Dev screenshots and debug files
+*.png
+!images/*.png
+
+# Dev scripts
+remove_bg.js
+png_test.html
+png_test.png
+node_modules/
