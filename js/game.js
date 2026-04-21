@@ -296,11 +296,9 @@ function buildHome() {
     <div class="home-bg-chars" id="home-bg-chars"></div>
     <div class="home-content">
       <div class="home-greeting" id="home-greeting"></div>
-      <h1 class="game-title">
-        <span class="title-squish">Dreamy</span>
-        <span class="title-amp"> </span>
-        <span class="title-spell">Dojo</span>
-      </h1>
+      <div class="home-logo-wrap">
+        <img src="images/logo.png" alt="Dreamy Dojo" class="home-logo">
+      </div>
       <p class="home-tagline">Learn and play with your squishy friends!</p>
       <div class="home-buttons">
         <button class="btn-play" id="btn-play" onclick="onPlay()">

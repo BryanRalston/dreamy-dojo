@@ -382,6 +382,25 @@ html, body {
   min-height: 1.6rem;
 }
 
+.home-logo-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: -8px 0 -4px;
+}
+
+.home-logo {
+  width: min(88vw, 360px);
+  height: auto;
+  filter: drop-shadow(0 4px 24px rgba(192, 132, 252, 0.5));
+  animation: logoFloat 4s ease-in-out infinite;
+}
+
+@keyframes logoFloat {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-6px); }
+}
+
 .game-title {
   font-size: clamp(2.8rem, 8vw, 5rem);
   font-weight: 900;

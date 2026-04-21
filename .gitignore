@@ -1,6 +1,8 @@
 # Dev screenshots and debug files
 *.png
 !images/*.png
+!icon-192.png
+!icon-512.png
 
 # Dev scripts
 remove_bg.js
