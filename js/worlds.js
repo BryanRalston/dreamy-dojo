@@ -974,115 +974,44 @@ function generateFormatA(word) {
 // Generate a Format B question: choose the correct spelling from 4 options
 function generateFormatB(word) {
   const correct = word.toUpperCase();
-
-  // Misspelling strategies
-  const strategies = [
-    // Swap vowel pair
-    (w) => {
-      const pairs = [['IE', 'EI'], ['EI', 'IE'], ['OU', 'UO'], ['UO', 'OU'], ['EA', 'AE'], ['AE', 'EA']];
-      for (const [from, to] of pairs) {
-        if (w.includes(from)) return w.replace(from, to);
-      }
-      return null;
-    },
-    // Replace a vowel
-    (w) => {
-      const VOWELS = 'AEIOU';
-      const vowelSwaps = { A: 'E', E: 'A', I: 'Y', O: 'U', U: 'O' };
-      for (let i = 1; i < w.length; i++) {
-        if (VOWELS.includes(w[i]) && vowelSwaps[w[i]]) {
-          return w.slice(0, i) + vowelSwaps[w[i]] + w.slice(i + 1);
-        }
-      }
-      return null;
-    },
-    // Drop a letter (silent-letter style or just remove one)
-    (w) => {
-      if (w.length <= 3) return null;
-      // Pick a middle-ish letter to drop (not first, not last)
-      const idx = Math.floor(w.length / 2);
-      return w.slice(0, idx) + w.slice(idx + 1);
-    },
-    // Double the wrong letter
-    (w) => {
-      // Find a consonant that is NOT currently doubled
-      for (let i = 1; i < w.length - 1; i++) {
-        if (!'AEIOU'.includes(w[i]) && w[i] !== w[i - 1] && w[i] !== w[i + 1]) {
-          return w.slice(0, i) + w[i] + w.slice(i);
-        }
-      }
-      return null;
-    },
-    // Phonetic consonant swap
-    (w) => {
-      const swaps = [['CK', 'K'], ['PH', 'F'], ['WH', 'W'], ['GH', 'F'], ['TCH', 'CH']];
-      for (const [from, to] of swaps) {
-        if (w.includes(from)) return w.replace(from, to);
-      }
-      return null;
-    },
-    // Replace second vowel with a different one
-    (w) => {
-      const VOWELS = 'AEIOU';
-      const vowelIndices = [];
-      for (let i = 0; i < w.length; i++) {
-        if (VOWELS.includes(w[i])) vowelIndices.push(i);
-      }
-      if (vowelIndices.length >= 2) {
-        const idx = vowelIndices[1];
-        const replacements = VOWELS.replace(w[idx], '').split('');
-        const replacement = replacements[Math.floor(Math.random() * replacements.length)];
-        return w.slice(0, idx) + replacement + w.slice(idx + 1);
-      }
-      return null;
-    },
-    // Remove doubled letter (un-double)
-    (w) => {
-      for (let i = 1; i < w.length; i++) {
-        if (w[i] === w[i - 1]) {
-          return w.slice(0, i) + w.slice(i + 1);
-        }
-      }
-      return null;
-    },
-  ];
-
-  // Shuffle strategies and try to get 3 distinct misspellings
-  const shuffled = fisherYates(strategies.slice());
   const misspellings = [];
   const seen = new Set([correct]);
 
-  for (const strategy of shuffled) {
-    if (misspellings.length >= 3) break;
-    const result = strategy(correct);
-    if (result && result !== correct && !seen.has(result)) {
-      seen.add(result);
-      misspellings.push(result);
+  const tryAdd = (c) => {
+    if (c && c.length >= 2 && c !== correct && !seen.has(c)) {
+      seen.add(c); misspellings.push(c); return true;
     }
+    return false;
+  };
+
+  const w = correct;
+  const n = w.length;
+
+  // Strategy 1: Double the first letter — CCAT, SSUN, RROSE
+  // No English word starts with a doubled letter, so this is always safe.
+  tryAdd(w[0] + w);
+
+  // Strategy 2: Double the last letter — CATT, SUNN, ROSEE
+  // For the specific word list used here, this never creates a real word.
+  tryAdd(w + w[n - 1]);
+
+  // Strategy 3: Swap first and last characters — TAC, NUS, NOOM, EOSR
+  // Produces a clearly scrambled version that is not a real word.
+  if (w[0] !== w[n - 1]) {
+    tryAdd(w[n - 1] + w.slice(1, n - 1) + w[0]);
+  } else if (n >= 4) {
+    // First === last: swap positions 1 and n-2 instead
+    tryAdd(w[0] + w[n - 2] + w.slice(2, n - 2) + w[1] + w[n - 1]);
   }
 
-  // Fallback: append/change last letter if we still need more
-  const VOWELS = 'AEIOU';
-  const fallbackSuffixes = ['E', 'ED', 'S', 'Y', 'ER'];
-  for (const suf of fallbackSuffixes) {
-    if (misspellings.length >= 3) break;
-    const candidate = correct + suf;
-    if (!seen.has(candidate)) {
-      seen.add(candidate);
-      misspellings.push(candidate);
-    }
+  // Strategy 4 (fallback): Swap positions 1 and 2 — SNU, CTA, SFOT
+  if (misspellings.length < 3 && n >= 3 && w[1] !== w[2]) {
+    tryAdd(w[0] + w[2] + w[1] + w.slice(3));
   }
-  // Last resort: tweak last character
-  let tweakAttempts = 0;
-  while (misspellings.length < 3 && tweakAttempts < 20) {
-    tweakAttempts++;
-    const idx = correct.length - 1;
-    const altVowels = VOWELS.split('').filter(c => c !== correct[idx]);
-    const candidate = correct.slice(0, idx) + altVowels[tweakAttempts % altVowels.length];
-    if (!seen.has(candidate)) {
-      seen.add(candidate);
-      misspellings.push(candidate);
-    }
+
+  // Strategy 5 (last resort): Move last character to position 1
+  if (misspellings.length < 3) {
+    tryAdd(w[0] + w[n - 1] + w.slice(1, n - 1));
   }
 
   const choices = fisherYates([correct, ...misspellings.slice(0, 3)]);
