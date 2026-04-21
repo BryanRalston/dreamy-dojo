@@ -2122,6 +2122,9 @@ function buildHouse() {
       </div>
     </div>
 
+    <!-- Item tray (outside room so it doesn't clip) -->
+    ${houseEditMode ? '<div id="house-tray-outer" class="house-tray-outer"></div>' : ''}
+
     <!-- Bottom bar -->
     <div class="house-bottom-bar">
       <button class="house-btn ${houseEditMode ? 'active' : ''}" id="house-edit-btn" onclick="toggleEditMode()">
@@ -2323,8 +2326,16 @@ function renderRoomItems() {
 }
 
 // ─── Item Tray ─────────────────────────────────────────────────────────────────
-// Renders owned but unplaced items as a tray pinned to the bottom of the room.
+// Renders owned but unplaced items into #house-tray-outer (outside the room).
 function renderItemTray(layer, W, H) {
+  // Remove any old tray from the room layer (legacy cleanup)
+  const oldTray = layer.querySelector('.room-item-tray');
+  if (oldTray) oldTray.remove();
+
+  const outer = document.getElementById('house-tray-outer');
+  if (!outer) return;
+  outer.innerHTML = '';
+
   const placedIds = new Set((save.house.placedItems || []).map(p => p.id));
   const ownedItems = save.house.ownedItems || [];
 
@@ -2388,7 +2399,7 @@ function renderItemTray(layer, W, H) {
     });
   }
 
-  layer.appendChild(tray);
+  outer.appendChild(tray);
 }
 
 // ─── Remove Placed Item ─────────────────────────────────────────────────────────
@@ -2407,6 +2418,22 @@ function toggleEditMode() {
   const btn = document.getElementById('house-edit-btn');
   if (btn) btn.textContent = houseEditMode ? '✅ Done' : '✏️ Decorate';
   if (btn) btn.classList.toggle('active', houseEditMode);
+
+  // Inject or remove the tray outer div based on edit mode
+  const roomOuter = document.querySelector('.room-outer');
+  const bottomBar = document.querySelector('.house-bottom-bar');
+  if (houseEditMode) {
+    if (!document.getElementById('house-tray-outer') && roomOuter && bottomBar) {
+      const trayOuter = document.createElement('div');
+      trayOuter.id = 'house-tray-outer';
+      trayOuter.className = 'house-tray-outer';
+      roomOuter.parentNode.insertBefore(trayOuter, bottomBar);
+    }
+  } else {
+    const existing = document.getElementById('house-tray-outer');
+    if (existing) existing.remove();
+  }
+
   renderRoomItems();
 }
 

@@ -1862,11 +1862,16 @@ button:focus-visible { outline: 3px solid var(--gold); }
 }
 
 /* ─── Item Tray (free placement mode) ───────────────────────────────────────── */
+.house-tray-outer {
+  width: 100%;
+  padding: 6px 12px 4px;
+  flex-shrink: 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+}
+
 .room-item-tray {
-  position: absolute;
-  bottom: 8px;
-  left: 50%;
-  transform: translateX(-50%);
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -1877,11 +1882,8 @@ button:focus-visible { outline: 3px solid var(--gold); }
   border: 1.5px solid rgba(255, 182, 200, 0.35);
   border-radius: 20px;
   box-shadow: 0 4px 20px rgba(0,0,0,0.5);
-  z-index: 10;
   pointer-events: all;
-  max-width: 92%;
-  flex-wrap: wrap;
-  justify-content: center;
+  min-width: max-content;
 }
 
 .room-tray-item {
@@ -2537,6 +2539,7 @@ button:focus-visible { outline: 3px solid var(--gold); }
   .shop-grid { grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); }
   .house-bottom-bar { gap: 8px; padding: 8px 10px; }
   .house-btn { padding: 8px 14px; font-size: 0.85rem; }
+  .room-tray-item { width: 52px; height: 52px; }
 }
 
 @media (max-height: 650px) {

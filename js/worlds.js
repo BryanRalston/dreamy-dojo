@@ -1096,25 +1096,17 @@ function generateFormatB(word) {
 }
 
 // Main entry point: generate N spelling questions — each word used exactly once
+// Always uses Format B (choose the correctly spelled word) — unambiguous for children.
 function generateSpellingQuestions(words, count) {
   if (!words || words.length === 0) return [];
 
   const upper = fisherYates(words.map(w => w.toUpperCase()));
-  const pool = [];
+  const pool = upper.map(word => generateFormatB(word));
 
-  // One question per word — alternate formats for variety
-  for (let i = 0; i < upper.length; i++) {
-    const word = upper[i];
-    const useFormatB = word.length >= 5 || (word.length === 4 && i % 2 === 1);
-    pool.push(useFormatB ? generateFormatB(word) : generateFormatA(word));
-  }
-
-  // If we still need more, cycle with the opposite format (no word duplicates before necessary)
+  // Pad if we need more questions than unique words
   let extra = 0;
   while (pool.length < count && extra < count * 2) {
-    const word = upper[extra % upper.length];
-    const useFormatB = word.length < 5; // flip format from first pass
-    pool.push(useFormatB ? generateFormatB(word) : generateFormatA(word));
+    pool.push(generateFormatB(upper[extra % upper.length]));
     extra++;
   }
 
