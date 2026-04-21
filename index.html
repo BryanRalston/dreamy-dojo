@@ -93,6 +93,11 @@
   <script src="js/worlds.js"></script>
   <script src="js/house.js"></script>
   <script src="js/game.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/dreamy-dojo/sw.js');
+    }
+  </script>
 
 </body>
 </html>
