@@ -37,9 +37,32 @@ html, body {
 
 #app {
   width: 100vw;
-  height: 100vh;
+  height: 100dvh;
   position: relative;
   overflow: hidden;
+}
+
+/* ─── Safe-area insets (notch / punch-hole / home bar) ───────────────────── */
+.play-hud,
+.world-select-header,
+.level-select-header,
+.progress-header,
+.collection-header,
+.char-detail-header,
+.house-hud {
+  padding-top: max(10px, env(safe-area-inset-top, 10px));
+}
+
+.house-bottom-bar {
+  padding-bottom: max(12px, env(safe-area-inset-bottom, 12px));
+}
+
+.home-stats-row {
+  padding-bottom: max(8px, env(safe-area-inset-bottom, 8px));
+}
+
+#screen-home .sound-toggle {
+  top: max(12px, env(safe-area-inset-top, 12px));
 }
 
 /* ─── Screen System ─────────────────────────────────────────────────────────── */

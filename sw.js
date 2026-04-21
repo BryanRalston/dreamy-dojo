@@ -1,4 +1,4 @@
-const CACHE = 'dreamy-dojo-v2';
+const CACHE = 'dreamy-dojo-v3';
 const ASSETS = [
   '/dreamy-dojo/',
   '/dreamy-dojo/index.html',
