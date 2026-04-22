@@ -988,30 +988,31 @@ function generateFormatB(word) {
   const n = w.length;
 
   // Strategy 1: Double the first letter — CCAT, SSUN, RROSE
-  // No English word starts with a doubled letter, so this is always safe.
+  // No English word starts with a doubled letter. Guaranteed safe.
   tryAdd(w[0] + w);
 
-  // Strategy 2: Double the last letter — CATT, SUNN, ROSEE
-  // For the specific word list used here, this never creates a real word.
-  tryAdd(w + w[n - 1]);
-
-  // Strategy 3: Swap first and last characters — TAC, NUS, NOOM, EOSR
-  // Produces a clearly scrambled version that is not a real word.
-  if (w[0] !== w[n - 1]) {
-    tryAdd(w[n - 1] + w.slice(1, n - 1) + w[0]);
-  } else if (n >= 4) {
-    // First === last: swap positions 1 and n-2 instead
-    tryAdd(w[0] + w[n - 2] + w.slice(2, n - 2) + w[1] + w[n - 1]);
+  // Strategy 2: Reverse the inner letters (keep first + last, scramble middle)
+  // e.g. WARM→WRAM, STAR→SATR, SHINE→SNIHE, GENTLE→GLTNEE
+  // Always looks wrong; never a real word.
+  if (n >= 4) {
+    const inner = w.slice(1, n - 1).split('').reverse().join('');
+    tryAdd(w[0] + inner + w[n - 1]);
   }
 
-  // Strategy 4 (fallback): Swap positions 1 and 2 — SNU, CTA, SFOT
+  // Strategy 3: Swap first and last characters — TAC, NUS, NOOM, EOSR
+  if (w[0] !== w[n - 1]) {
+    tryAdd(w[n - 1] + w.slice(1, n - 1) + w[0]);
+  }
+
+  // Strategy 4 (fallback): Swap positions 1 and 2 — SNU, CTA, RSOE
   if (misspellings.length < 3 && n >= 3 && w[1] !== w[2]) {
     tryAdd(w[0] + w[2] + w[1] + w.slice(3));
   }
 
-  // Strategy 5 (last resort): Move last character to position 1
+  // Strategy 5 (last resort): Insert doubled first letter in the middle
   if (misspellings.length < 3) {
-    tryAdd(w[0] + w[n - 1] + w.slice(1, n - 1));
+    const mid = Math.floor(n / 2);
+    tryAdd(w.slice(0, mid) + w[0] + w.slice(mid));
   }
 
   const choices = fisherYates([correct, ...misspellings.slice(0, 3)]);
