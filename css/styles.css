@@ -2655,6 +2655,13 @@ button:focus-visible { outline: 3px solid var(--gold); }
   text-align: center;
 }
 
+.game-type-text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
 .game-type-desc {
   font-size: 0.95rem;
   font-weight: 600;
@@ -2834,8 +2841,10 @@ button:focus-visible { outline: 3px solid var(--gold); }
     min-width: unset;
   }
   .game-type-icon { font-size: 2.4rem; flex-shrink: 0; }
+  .game-type-text { align-items: flex-start; flex: 1; min-width: 0; }
   .game-type-name { font-size: 1.2rem; text-align: left; }
   .game-type-desc { font-size: 0.88rem; text-align: left; }
+  .level-select-header h2 { font-size: 1.1rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; flex: 1; }
   .mcq-play-area { flex-direction: column; padding: 12px 16px; gap: 12px; }
   .mcq-char-side { min-width: unset; flex-direction: row; gap: 12px; }
   .mcq-question-text { font-size: 1.4rem; }

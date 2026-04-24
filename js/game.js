@@ -254,6 +254,7 @@ function showScreen(id) {
   document.querySelectorAll('.screen').forEach(s => {
     s.classList.remove('active');
   });
+  document.querySelectorAll('.achievement-popup').forEach(el => el.remove());
   const el = document.getElementById('screen-' + id);
   if (el) el.classList.add('active');
   gameState = STATE[id.toUpperCase().replace(/-/g, '_')] || id;
@@ -548,20 +549,26 @@ function buildGameTypeSelect() {
     <div class="game-type-grid">
       <div class="game-type-card game-type-spelling" onclick="chooseGameType('spelling')">
         <div class="game-type-icon">✏️</div>
+        <div class="game-type-text">
         <h3 class="game-type-name">Spelling</h3>
         <p class="game-type-desc">Spell words the right way!</p>
+        </div>
         <div class="game-type-badge">Classic</div>
       </div>
       <div class="game-type-card game-type-math" onclick="chooseGameType('math')">
         <div class="game-type-icon">➕</div>
+        <div class="game-type-text">
         <h3 class="game-type-name">Math</h3>
         <p class="game-type-desc">Solve fun math puzzles!</p>
+        </div>
         <div class="game-type-badge">New!</div>
       </div>
       <div class="game-type-card game-type-science" onclick="chooseGameType('science')">
         <div class="game-type-icon">🔬</div>
+        <div class="game-type-text">
         <h3 class="game-type-name">Science</h3>
         <p class="game-type-desc">Answer cool science questions!</p>
+        </div>
         <div class="game-type-badge">New!</div>
       </div>
     </div>
